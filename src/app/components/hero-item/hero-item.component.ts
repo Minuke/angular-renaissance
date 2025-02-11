@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { Hero, PowerStat } from '../../shared/interfaces/hero.interface';
 
 @Component({
@@ -9,34 +9,21 @@ import { Hero, PowerStat } from '../../shared/interfaces/hero.interface';
 })
 export class HeroItemComponent {
 
-  hero: Hero = {
-    id: 620,
-    name: "Spider-Man",
-    powerstats: {
-      intelligence: 96,
-      strength: 55,
-      speed: 67,
-      durability: 75,
-      power: 74,
-      combat: 85,
-    },
-    image: "https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/images/sm/620-spider-man.jpg",
-    alignment: "good",
-  }
-
-  isHeroVillain = this.hero.alignment === "bad";
+  public hero = input.required<Hero>();
+  
+  public isHeroVillain = computed(() => this.hero().alignment === 'bad');
 
   decrementPowerStats(powerstat: PowerStat): void {
-    const value = this.hero.powerstats[powerstat];
+    const value = this.hero().powerstats[powerstat];
     if(value > 0) {
-      this.hero.powerstats[powerstat]--;
+      this.hero().powerstats[powerstat]--;
     }
   }
 
   incrementPowerStats(powerstat: PowerStat): void {
-    const value = this.hero.powerstats[powerstat];
+    const value = this.hero().powerstats[powerstat];
     if(value < 100) {
-      this.hero.powerstats[powerstat]++;
+      this.hero().powerstats[powerstat]++;
     }
   }
   
