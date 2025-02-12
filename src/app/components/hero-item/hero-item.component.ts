@@ -1,5 +1,6 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { Hero, PowerStat } from '../../shared/interfaces/hero.interface';
+import { HeroPowerstatsChange } from '../../shared/interfaces/hero-powerstats-change.interface';
 
 @Component({
   selector: 'app-hero-item',
@@ -10,21 +11,16 @@ import { Hero, PowerStat } from '../../shared/interfaces/hero.interface';
 export class HeroItemComponent {
 
   public hero = input.required<Hero>();
+  public powertatsChange = output<HeroPowerstatsChange>()
   
   public isHeroVillain = computed(() => this.hero().alignment === 'bad');
 
   decrementPowerStats(powerstat: PowerStat): void {
-    const value = this.hero().powerstats[powerstat];
-    if(value > 0) {
-      this.hero().powerstats[powerstat]--;
-    }
+    this.powertatsChange.emit({ hero: this.hero(), powerstat, value: -1 })
   }
 
   incrementPowerStats(powerstat: PowerStat): void {
-    const value = this.hero().powerstats[powerstat];
-    if(value < 100) {
-      this.hero().powerstats[powerstat]++;
-    }
+    this.powertatsChange.emit({ hero: this.hero(), powerstat, value: +1 })
   }
   
 }
