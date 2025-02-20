@@ -1,76 +1,46 @@
 <h3>Add an Hero!</h3>
-
 <div>
   <h4 class="error">{{ message }}</h4>
-  <!--
-    TODO 303: Add an `(ngSubmit)` event to the `form` tag to invoke the `addHero` method on submit, and bind the associated `formGroup` to the `heroForm` attribute.
-   -->
   <form (ngSubmit)="addHero()" [formGroup]="heroForm">
     <div class="row">
       <div class="column">
         <div class="input-group">
           <label for="name">Name: </label>
-                    <!-- TODO 304: Add the `formControlName` for the input element to bind it to the `name` controller. -->
           <input type="text" name="name" placeholder="Name" required   formControlName="name"/>
         </div>
-                <!-- TODO 305: Add the `formGroupName` `powerstats` to the `div` element and the `formControlName` bindings for the different skills to their respective `input` elements. -->
+        @if(this.heroForm.get('name')?.dirty && this.heroForm.get('name')?.invalid) {
+          <div class="error">
+            @if(this.heroForm.get('name')?.getError('required')) {
+              <div>* Hero name is required</div>
+            }
+            @if(this.heroForm.get('name')?.getError('heroNameValid')) {
+              <div>* Hero name must be a valid name</div>
+            }
+          </div>
+        }
         <div formGroupName="powerstats">
-          <div class="input-group">
-            <label for="combat">Combat: </label>
-              <input
-                type="number"
-                name="combat"
-                placeholder="Combat"
-                formControlName="combat"
-              />
-          </div>
-          <div class="input-group">
-            <label for="durability">Durability </label>
-            <input
-              type="number"
-              name="durability"
-              placeholder="Durability"
-              formControlName="durability"
-            />
-          </div>
-          <div class="input-group">
-            <label for="intelligence">Intelligence: </label>
-            <input
-              type="number"
-              name="intelligence"
-              placeholder="Intelligence"
-              formControlName="intelligence"
-            />
-          </div>
-          <div class="input-group">
-            <label for="power">Power: </label>
-            <input
-              type="number"
-              name="power"
-              placeholder="Power"
-              formControlName="power"
-            />
-          </div>
-          <div class="input-group">
-            <label for="speed">Speed: </label>
-            <input
-              type="number"
-              name="speed"
-              placeholder="Speed"
-              formControlName="speed"
-            />
-          </div>
-          <div class="input-group">
-            <label for="strength">Strength: </label>
-            <input
-              type="number"
-              name="strength"
-              placeholder="Strength"
-              formControlName="strength"
-            />
-          </div>
+          @for(powerstat of powerstats; track powerstat) {
+            <div class="input-group">
+              <label [for]="powerstats">{{powerstat | titlecase }}:</label>
+                <input
+                  type="number"
+                  [name]="powerstat"
+                  [placeholder]="powerstat | titlecase"
+                  [formControlName]="powerstat"
+                />
+            </div>
+            @if(this.heroForm.get('powerstats')?.get(powerstat)?.dirty && this.heroForm.get('powerstats')?.get(powerstat)?.invalid) {
+              <div class="error">
+                @if(this.heroForm.get('powerstats')?.get(powerstat)?.getError('required')) {
+                  <div>* {{powerstat | titlecase }} is required</div>
+                }
+                @if(this.heroForm.get('powerstats')?.get(powerstat)?.getError('min') || this.heroForm.get('powerstats')?.get(powerstat)?.getError('max')) {
+                  <div>* {{powerstat | titlecase }} must be a value between 0 and 100</div>
+                }
+              </div>
+            }
+          }
         </div>
-        <!-- TODO 306: Add the `formControlName` bindings for `image` and `alignment`.  -->
         <div class="input-group">
           <label for="image">Image: </label>
           <select formControlName="image">
@@ -91,7 +61,7 @@
       </div>
     </div>
     <div class="row">
-      <button>Create</button>
+      <button [disabled]="this.heroForm.invalid">Create</button>
     </div>
   </form>
 </div>
