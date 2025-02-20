@@ -1,7 +1,8 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { HeroItemComponent } from '../hero-item/hero-item.component';
 import { Hero } from '../../shared/interfaces/hero.interface';
 import { HeroPowerstatsChange } from '../../shared/interfaces/hero-powerstats-change.interface';
+import { HeroService } from '../../shared/services/hero.service';
 
 @Component({
   selector: 'app-hero-list',
@@ -11,10 +12,12 @@ import { HeroPowerstatsChange } from '../../shared/interfaces/hero-powerstats-ch
 })
 export class HeroListComponent {
 
+  private readonly _heroService = inject(HeroService);
+
   public heroes = input.required<Hero[]>();
 
   public savePowerstats({hero, powerstat, value}: HeroPowerstatsChange): void  {
-    hero.powerstats[powerstat] += value;
+    this._heroService.update(hero, powerstat, value);
   }
   
 }
