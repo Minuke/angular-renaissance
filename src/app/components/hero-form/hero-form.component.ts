@@ -5,14 +5,14 @@ import { heroNameValidator } from '../../shared/validators/hero-name.validator';
 import { TitleCasePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-hero-new',
+  selector: 'app-hero-form',
   imports: [ReactiveFormsModule, TitleCasePipe],
-  templateUrl: './hero-new.component.html',
-  styleUrl: './hero-new.component.scss',
+  templateUrl: './hero-form.component.html',
+  styleUrl: './hero-form.component.scss',
 })
-export class HeroNewComponent {
+export class HeroFormComponent {
   // ---- Output ----
-  public add = output<Hero>();
+  public add = output<Hero>({ alias: 'sendHero' });
 
   // ---- Public Properties ----
   public message:string = '';

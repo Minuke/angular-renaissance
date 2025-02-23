@@ -15,7 +15,6 @@
   <ul class="font-medium flex flex-row space-x-8">
     <li>
       <a
-        class="text-gray-900"
         aria-current="page"
         [routerLink]="['home']"
         routerLinkActive="text-blue-700"
@@ -24,7 +23,6 @@
     </li>
     <li>
       <a
-        class="text-gray-900"
         [routerLink]="['hero', 'new']"
         routerLinkActive="text-blue-700"
         >New Hero
@@ -32,7 +30,6 @@
     </li>
     <li>
       <a
-        class="text-gray-900"
         [routerLink]="['auth', 'login']"
         routerLinkActive="text-blue-700"
         >Login
@@ -40,8 +37,7 @@
     </li>
     <li>
       <a
-        class="text-gray-900"
-        routerLink="/auth/register"
+        [routerLink]="['auth', 'register']"
         routerLinkActive="text-blue-700"
       >
         Register
