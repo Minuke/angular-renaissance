@@ -17,7 +17,7 @@ export class HeroListComponent {
   public heroes = input.required<Hero[]>();
 
   public savePowerstats({hero, powerstat, value}: HeroPowerstatsChange): void  {
-    this._heroService.update(hero, powerstat, value);
+    this._heroService.updatePowerstat(hero, powerstat, value);
   }
   
 }

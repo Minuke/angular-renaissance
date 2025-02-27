@@ -1,1 +1,5 @@
-<p>hero-detail works!</p>
+@if(this.isValidHero()){
+  <app-hero-item [hero]="hero()"j />
+}@else{
+  <app-hero-item-not-found />
+}
