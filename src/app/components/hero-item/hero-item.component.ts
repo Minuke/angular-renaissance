@@ -8,21 +8,31 @@ import { RouterLink } from '@angular/router';
   selector: 'app-hero-item',
   imports: [CommonModule, RouterLink],
   templateUrl: './hero-item.component.html',
-  styleUrl: './hero-item.component.scss'
+  styleUrls: ['./hero-item.component.scss'] // Corrección: styleUrls (array)
 })
 export class HeroItemComponent {
 
   public hero = input.required<Hero>();
-  public powertatsChange = output<HeroPowerstatsChange>()
+  // Renombrado correctamente a powerstatsChange
+  public powerstatsChange = output<HeroPowerstatsChange>();
+  public removeHero = output<Hero>();
   
   public isHeroVillain = computed(() => this.hero().alignment === 'bad');
 
   decrementPowerStats(powerstat: PowerStat): void {
-    this.powertatsChange.emit({ hero: this.hero(), powerstat, value: -1 })
+    this.powerstatsChange.emit({ hero: this.hero(), powerstat, value: -1 });
   }
 
   incrementPowerStats(powerstat: PowerStat): void {
-    this.powertatsChange.emit({ hero: this.hero(), powerstat, value: +1 })
+    this.powerstatsChange.emit({ hero: this.hero(), powerstat, value: +1 });
   }
-  
+
+  public remove(hero: Hero): void {
+    this.removeHero.emit(hero);
+  }
+
+  // Función trackBy para el *ngFor del keyvalue pipe
+  trackByKey(index: number, item: { key: string; value: any }): string {
+    return item.key;
+  }
 }

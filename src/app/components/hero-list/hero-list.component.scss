@@ -1,4 +1,13 @@
 .hero-list {
   display: flex;
+  flex-wrap: wrap;
   gap: 16px;
+  justify-content: center; 
+  padding: 16px;
+}
+
+app-hero-item {
+  flex: 1 1 calc(33.33% - 16px);
+  max-width: 250px;
+  min-width: 200px;
 }

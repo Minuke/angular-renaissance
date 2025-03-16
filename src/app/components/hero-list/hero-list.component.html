@@ -1,7 +1,13 @@
-<div class="hero-list">
-  @for(hero of heroes(); track hero.id) {
-    <app-hero-item [hero]="hero" (powertatsChange)="savePowerstats($event)"></app-hero-item>
-  } @empty {
-    <h1>There are no Heroes</h1>
-  }
+<div class="flex flex-wrap justify-center gap-4">
+  <ng-container *ngIf="heroes()?.length; else noHeroes">
+    <app-hero-item 
+      *ngFor="let hero of heroes(); trackBy: trackHero"
+      [hero]="hero"
+      (powerstatsChange)="savePowerstats($event)"
+      (removeHero)="removeHero($event)">
+    </app-hero-item>
+  </ng-container>
+  <ng-template #noHeroes>
+    <h1 aria-hidden="true">There are no Heroes.</h1>
+  </ng-template>
 </div>
