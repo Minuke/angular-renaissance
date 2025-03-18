@@ -1,7 +1,3 @@
-@let heroes = (heroes$ | async)?.heroes;
-
-@if(heroes) {
-  <app-hero-list [heroes]="heroes"></app-hero-list>
+@if(heroes$ | async; as heroes){
+  <app-hero-list [heroes]="heroes" />
 }
-
-
