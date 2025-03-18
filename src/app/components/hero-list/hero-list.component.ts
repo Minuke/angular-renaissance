@@ -19,28 +19,23 @@ export class HeroListComponent {
 
   public heroes = input.required<Hero[]>();
 
-  savePowerstats(event: HeroPowerstatsChange) {
-    this.#heroService.updatePowerstat(event.hero, event.powerstat, event.value)
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe({
-        next: () => console.log('Powerstat updated'),
-        error: (error) => console.error('Failed to update powerstat', error),
-        complete: () => console.log('Powerstat update complete'),
-      });
+  savePowerstats({ hero, powerstat, value}: HeroPowerstatsChange){
+    this.#heroService.updatePowerstat(hero, powerstat, value)
+    .pipe(takeUntilDestroyed(this.#destroyRef))
+    .subscribe({
+      next: () => console.log('Powerstat updated'),
+      error: (error) => console.error('Failed to update powerstat', error),
+      complete: () => console.log('Powerstat update complete'),
+    });
   }
-  
-  removeHero(hero: Hero) {
+
+  removeHero(hero: Hero){
     this.#heroService.remove(hero)
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe({ 
-        next: () => console.log('Hero removed'),
-        error: (error) => console.error('Failed to remove hero', error),
-        complete: () => console.log('Hero removed complete'),
-      });
-  }
-  
-  // Función trackBy para optimizar *ngFor
-  trackHero(index: number, hero: Hero): any {
-    return hero.id;
+    .pipe(takeUntilDestroyed(this.#destroyRef))
+    .subscribe({ // Now the hero is removed from UI because the view is subscribe to State (heroe$ from BehivourSubject).
+      next: () => console.log('Hero removed'),
+      error: (error) => console.error('Failed to remove hero', error),
+      complete: () => console.log('Hero removed complete'),
+    });
   }
 }

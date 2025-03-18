@@ -14,12 +14,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class HomeComponent {
 
-  private readonly _heroService = inject(HeroService);
-  private readonly _destroyRef = inject(DestroyRef);
-  public heroes$ = this._heroService.heroe$;
+  readonly #heroService = inject(HeroService);
+  readonly heroes$ = this.#heroService.heroes;
 
-  constructor() {
-    this._heroService.load().pipe(takeUntilDestroyed(this._destroyRef)).subscribe();
+  constructor(private destroyRef: DestroyRef) {
+    this.#heroService.load()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe();
   }
   
 }
